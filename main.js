@@ -14,7 +14,7 @@ let overlays = {
     forecast: L.featureGroup().addTo(map),
     wind: L.featureGroup().addTo(map)
 }
-JSON-daten für den angeklickten punkt downloaden
+
 // Layer Control
 let layerControl = L.control.layers({
     "Openstreetmap": L.tileLayer.provider("OpenStreetMap.Mapnik"),
