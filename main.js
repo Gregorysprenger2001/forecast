@@ -14,7 +14,7 @@ let overlays = {
     forecast: L.featureGroup().addTo(map),
     wind: L.featureGroup().addTo(map)
 }
-
+JSON-daten für den angeklickten punkt downloaden
 // Layer Control
 let layerControl = L.control.layers({
     "Openstreetmap": L.tileLayer.provider("OpenStreetMap.Mapnik"),
@@ -33,6 +33,11 @@ L.control.scale({
 //MET Norway VorhersaGE VISUALISIEREN
 async function showForecast(latlng) {
     console.log("Popup erzeugen bei:", latlng);
+    let url = `https://api.met.no/weatherapi/locationforecast/2.0/compact?lat=${latlng.lat}&lon=${latlng.lat}`;
+    console.log(url);
+        let response = await fetch(url)
+        let jsondata = await response.json();
+        console.log(jsondata);
 }
 // auf Kartenklick reagieren
 map.on("click", function(evt) {
