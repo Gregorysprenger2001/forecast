@@ -98,3 +98,25 @@ map.fire("click", {
         lng: ibk.lng,
     }
 })
+
+// Velocity Layer
+fetch('https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json')
+    .then(res => res.json())
+    .then(data => {
+        const velocityLayer = L.velocityLayer({
+            data: data,
+            displayValues: true,
+            displayOptions: {
+                velocityType: "Global Wind",
+                position: "bottomleft",
+                emptyString: "No velocity data",
+                angleConvention: "bearingCW",
+                showCardinal: false,
+                speedUnit: "ms",
+                directionString: "Direction",
+                speedString: "Speed",
+            },
+        maxVelocity: 10,
+        });
+        velocityLayer.addTo(overlays.richtung)
+    });
