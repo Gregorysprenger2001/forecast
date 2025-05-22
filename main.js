@@ -39,6 +39,11 @@ async function loadWind (url){
     let jsondata = await response.json();
     let forecastDate = new Date (jsondata[0].header.refTime); 
     forecastDate.setHours(forecastDate.getHours() + jsondata[0].header.forecastTime)
+    
+    let forecastSpan = document.querySelector("#forecast-link");
+    forecastSpan.innerHTML = `
+    (<a href="${url}" target="met.no">${forecastDate.toLocaleString()}</a>)
+    `; 
     L.velocityLayer({
         data: jsondata
     }).addTo(overlays.wind);
