@@ -24,13 +24,26 @@ let layerControl = L.control.layers({
 }, {
     "Wettervorhersage MET Norway": overlays.forecast,
     "ECMWF Windvorhersage": overlays.wind,
-    "Windrichtung": overlays.richtung,
+
 }).addTo(map);
 
 // Maßstab
 L.control.scale({
     imperial: false,
 }).addTo(map);
+
+// ECMF windanimation mit velocity 
+
+async function loadWind (url){
+    let response = await fetch(url);
+    let jsondata = await response.json();
+    let forecastDate = new Date (jsondata[0].header.refTime); 
+    forecastDate.setHours(forecastDate.getHours() + jsondata[0].header.forecastTime)
+    L.velocityLayer({
+        data: jsondata
+    }).addTo(overlays.wind);
+}
+loadWind("https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json")
 
 // Ort über Openstreetmap reverse geocding bestimmen
 async function getPlaceName (url){
@@ -122,5 +135,5 @@ fetch('https://geographie.uibk.ac.at/data/ecmwf/data/wind-10u-10v-europe.json')
         velocityScale: 0.005,
         opacity: 0.97,
         });
-        velocityLayer.addTo(overlays.richtung)
+        velocityLayer.addTo(overlays.wind)
     });
